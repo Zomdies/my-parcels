@@ -1,0 +1,59 @@
+.MainBlock{
+    display: table;
+    background: rgb(216, 216, 216);
+    border-radius: 10px;
+    width: auto;
+    margin: 20px;
+}
+.InBlock{
+     display: -webkit-box;
+    width: 100%;
+    height: 240px;
+    padding: 2%;
+    margin: 1px; 
+    
+}
+.Icno{
+     /* text-align: center;  */
+    width: 110px;
+    height: 1100px;
+    /* margin: 1px;  */
+}
+.Img{
+    width: 110px;
+    height: 110px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.Label{
+    height: auto;
+    margin: 1px;
+    text-align: center;
+}
+.ParcelsName{
+    /* background: rgb(206, 78, 78); */
+    /* text-align: center; */
+}
+.ErrorParcels{
+    text-align: center;
+    /* font-weight: bold; */
+}
+.AddParcels{
+    text-align: center;
+    font-weight: bold;
+}
+.ModalBody{
+    text-align: center;
+}
+.ModalDopInfo{
+    margin: 1px;
+    display: inline-flex;
+}
+.ModalDopInfoTime{
+    margin: 1px;
+    padding-right: 10px;
+}
+.ModalDopInfoWeight{
+    margin: 1px;
+}
