@@ -9,7 +9,7 @@
     "eject": "react-scripts eject"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kostrichin Andrey",
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^5.2.0",

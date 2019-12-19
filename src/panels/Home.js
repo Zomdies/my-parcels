@@ -9,10 +9,11 @@ import ModalPageHeader from '@vkontakte/vkui/dist/components/ModalPageHeader/Mod
 import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderButton'
 import FormLayout from '@vkontakte/vkui/dist/components/FormLayout/FormLayout'
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
+import InfoRow from '@vkontakte/vkui/dist/components/InfoRow/InfoRow'
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import List from '@vkontakte/vkui/dist/components/List/List'
 import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
-import InfoRow from '@vkontakte/vkui/dist/components/InfoRow/InfoRow'
+
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 
@@ -20,85 +21,64 @@ import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenS
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import Icon24Done from '@vkontakte/icons/dist/24/done';
 
-import icon from '../img/icon.png'
-import icon_add from '../img/add_icon.png'
+
 
 import '../css/Home.css'
-import { render } from 'react-dom';
+import Card_Info from './Card_Info'
 
-function sendRequest(method, url){
-	return new Promise( (resolve, reject) =>{
-		const xhr = new XMLHttpRequest();
-		xhr.open(method,url);
-		xhr.responseType = 'json';
-		xhr.onload = () => {
-			if (xhr.status >= 400) {
-				reject(xhr.response);
-			}else{
-				resolve(xhr.response);
-			}
-		}
-		xhr.onerror = () => {
-			reject(xhr.response);
-		}
-		xhr.send();
-	});
-}
 
-function load_info(setPopout,chooseParcels,setParcelsData){
-
-    
-    var  carriers = "";
-    
-    fetch("https://cors-anywhere.herokuapp.com/https://moyaposylka.ru/api/v1/trackers/"+chooseParcels[1]+"/"+chooseParcels[2])
+function load_info(setParcelsData,setPopout ){
+	setPopout(<ScreenSpinner size='large' />);
+    fetch("https://cors-anywhere.herokuapp.com/http://moyaposylka.ru/api/v1/trackers/"+chooseParcels[1]+"/"+chooseParcels[2])
     .then(response => response.json())
     .then(result =>{
         try{
-            if (result.status) {setParcelsData(null);
+            if (result.status) {
+				setParcelsData(null);
                 console.log(result)}
                 else{
                     console.log(result)
-                    setParcelsData(result);
+					setParcelsData(result);
+					// setPopout(null);
                 }
-        }catch{
+        }catch(err){ console.log(err);
         }
         setPopout(null);
 
     }).catch(err => console.log(err))
-
 }
 
+var chooseParcels = [];
 const Home = props => {
-	const id_v = new URLSearchParams(window.location.href).get("vk_user_id");
 	const [activeModal, setActiveModal] = useState(null);
 	const [serverData, setServerData] = useState(null);
 	const [parcelsData, setParcelsData] = useState(null);
-	const [chooseParcels, setChooseParcels] = useState(null);
-	var Barcode = require('react-barcode');
+
+	
+	
 	// const parcels = ["Мая посылка 1","Мая посылка 2","Мая посылка 3"];
-	const [parcels , setParcels] = useState(["Мая посылка 1","Мая посылка 2","Мая посылка 3"]); //
+	// const [parcels , setParcels] = useState(["Мая посылка 1","Мая посылка 2","Мая посылка 3"]); //
 
 	useEffect(() => {
-		props.setPopout(<ScreenSpinner size='large' />);
-		fetch("https://vk-hack.herokuapp.com/get/id"+id_v)
+		// props.setPopout(<ScreenSpinner size='large' />);
+		fetch("https://vk-hack.herokuapp.com/get/id"+props.id_v)
 				.then(response => response.json())
     			.then(result =>{
         			try{
-            			if (result.status) {
-							setServerData(null);
-                			console.log(result)}
-                		else{
-							var a = Object.values(result.tracks["track1"]);
-                    		// console.log(a)
+					
+							var a = Object.values(result.tracks);
+                    		
 							setServerData(result)
-							setChooseParcels(a);
+							chooseParcels = a;
+							
 							props.setPopout(null);
-               			}
-        			}catch{
+        			}catch(err){
+						console.log(err);
 					}
-					props.setPopout(null);
-
-    	}).catch(err => console.log(err))
+					// props.setPopout(null);
+					// load_info(setParcelsData,props.setPopout);
+		}).catch(err => console.log(err))
+		
 		
 		// async function fetchData2() {
 		
@@ -116,20 +96,6 @@ const Home = props => {
 		
 	}, []);
 
-	var open_information = (name) =>{
-		setChooseParcels(name);
-		if (chooseParcels != "None") {
-			// console.log(chooseParcels);
-			props.setPopout(<ScreenSpinner size='large' />);
-			load_info(props.setPopout,chooseParcels,setParcelsData);
-			setActiveModal("modal_inform");
-		}
-		
-	}
-	const closeModal = () =>{
-		setActiveModal(null);
-		props.setActivePanel("home")
-	} 
 		
 	
 	return (
@@ -140,7 +106,7 @@ const Home = props => {
 				{serverData &&                 	
 					<List>
                 		{serverData && serverData.tracks && Object.values(serverData.tracks).map(v => Object.values(v))
-					.map((item,index) =>{ 
+						.map((item,index) =>{ 
 							return(
                     			<Cell className="ParcelsName"  id = {index} key={item}  draggable onDragFinish={({ from, to }) => {
                       					// const parcels1 = [...parcels];
@@ -148,9 +114,14 @@ const Home = props => {
                       					// parcels1.splice(to, 0, parcels[from]);
 										  // setParcels(parcels1);
 										//   console.log(item);
-								}}  > <div onClick={() =>{ props.setPopout(null);
-														   open_information(item)} } >{item[0]}</div></Cell>
-							  )})
+								}}  > <div onClick={() =>{ chooseParcels = item;
+															load_info(setParcelsData,props.setPopout);
+															setActiveModal("modal_inform");
+															console.log(chooseParcels);
+														   	} } >{item[0]}</div></Cell>
+							);
+							// props.setPopout(null)
+						})
 							  
 						}	 
                 	</List>
@@ -158,45 +129,17 @@ const Home = props => {
 				{serverData && Object.keys(serverData.tracks).length == 0 &&
 					<Cell className="ErrorParcels" >Пока у вас нет пасылок</Cell> 
 				}
-				<Cell className="AddParcels" onClick={() => open_information("Добавить посылку")}>Добавить посылку</Cell>
+				<Cell className="AddParcels" onClick={props.go} data-to='create_card'>Добавить посылку</Cell>
             </Group>
-			<ModalRoot activeModal={activeModal}>
-				
-				<ModalPage id ="modal_inform"
-				onClose={closeModal}
-				header={
-					<ModalPageHeader className="ModalHaeder"
-						left={<HeaderButton onClick={closeModal}><Icon24Cancel /></HeaderButton>}
-              			right={<HeaderButton onClick={closeModal}><Icon24Done /></HeaderButton>}
-					>Information</ModalPageHeader>
-				}>
-					<FormLayout className="ModalBody">
-						{chooseParcels && 
-							<div>
-								<p>Название посылки : {chooseParcels[0]}</p>
-								<p>Номер отслеживания : {chooseParcels[2]}</p>
-								{parcelsData &&
-									<div className="ModalDopInfo">
-										<p className="ModalDopInfoTime">Время в пути : {parcelsData.deliveringTime} дней    </p>
-										<p className="ModalDopInfoWeight">Вес посылки : {parcelsData.weight} кг.</p>
-									</div>
-								}
-								
-								<Barcode value={chooseParcels[2]} background="white"></Barcode>
-								{parcelsData &&
-									<InfoRow>Статус отслеживания : {parcelsData.events[0].operation}</InfoRow>
-								}
-							
-							</div>
-							
-							
-						}
-						<Button size="xl" onClick={() => console.log("DELETE")}>Больше информации</Button>
-						<Button size="xl" onClick={() => console.log("DELETE")}>Настройки</Button>
-					</FormLayout>
-				</ModalPage>
-				
-			</ModalRoot>
+			{chooseParcels&& parcelsData && 
+				<Card_Info activeModal={activeModal} setActiveModal={setActiveModal} go={props.go}  id_v={props.id_v}
+				chooseParcels={chooseParcels} parcelsData={parcelsData} 
+				setPopout={props.setPopout} setDataToDelete={props.setDataToDelete}
+				setDataToInfo={props.setDataToInfo}
+				setActivePanel={props.setActivePanel}></Card_Info>
+			}
+			
+					
 		</Panel>
 	);
 	
