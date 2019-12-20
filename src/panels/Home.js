@@ -102,7 +102,7 @@ const Home = props => {
 		
 		<Panel id={props.id} theme="white">
 			<PanelHeader>Мои посылки</PanelHeader>
-            <Group title="Посылки">
+            <Group className="Parcels_Group" title="Посылки">
 				{serverData &&                 	
 					<List>
                 		{serverData && serverData.tracks && Object.values(serverData.tracks).map(v => Object.values(v))
@@ -131,6 +131,7 @@ const Home = props => {
 				}
 				<Cell className="AddParcels" onClick={props.go} data-to='create_card'>Добавить посылку</Cell>
             </Group>
+			
 			{chooseParcels&& parcelsData && 
 				<Card_Info activeModal={activeModal} setActiveModal={setActiveModal} go={props.go}  id_v={props.id_v}
 				chooseParcels={chooseParcels} parcelsData={parcelsData} 
