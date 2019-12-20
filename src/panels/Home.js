@@ -60,7 +60,7 @@ const Home = props => {
 	// const [parcels , setParcels] = useState(["Мая посылка 1","Мая посылка 2","Мая посылка 3"]); //
 
 	useEffect(() => {
-		// props.setPopout(<ScreenSpinner size='large' />);
+		props.setPopout(<ScreenSpinner size='large' />);
 		fetch("https://vk-hack.herokuapp.com/get/id"+props.id_v)
 				.then(response => response.json())
     			.then(result =>{
@@ -75,7 +75,7 @@ const Home = props => {
         			}catch(err){
 						console.log(err);
 					}
-					// props.setPopout(null);
+					props.setPopout(null);
 					// load_info(setParcelsData,props.setPopout);
 		}).catch(err => console.log(err))
 		

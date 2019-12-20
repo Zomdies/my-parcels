@@ -30,7 +30,7 @@
 	width: 28px;
 	height: 28px;
 	line-height: 28px;
-	background: #fff;
+	background: #4fc532;
 	color: #000;
 	text-align: center;
 	font-size: 0px;
@@ -66,5 +66,5 @@
 	bottom: 0px;
 	left: -30px;
 	width: 25px;
-	background: #fff;
+	background: rgba(255, 255, 255, 0);
 }
