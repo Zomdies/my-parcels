@@ -108,13 +108,13 @@ const Home = props => {
                 		{serverData && serverData.tracks && Object.values(serverData.tracks).map(v => Object.values(v))
 						.map((item,index) =>{ 
 							return(
-                    			<Cell className="ParcelsName"  id = {index} key={item}  draggable onDragFinish={({ from, to }) => {
+                    			<Cell className="ParcelsName" id = {index} key={item}  draggable onDragFinish={({ from, to }) => {
                       					// const parcels1 = [...parcels];
                       					// parcels1.splice(from, 1);
                       					// parcels1.splice(to, 0, parcels[from]);
 										  // setParcels(parcels1);
 										//   console.log(item);
-								}}  > <div onClick={() =>{ chooseParcels = item;
+								}}  > <div   onClick={() =>{ chooseParcels = item;
 															load_info(setParcelsData,props.setPopout);
 															setActiveModal("modal_inform");
 															console.log(chooseParcels);
