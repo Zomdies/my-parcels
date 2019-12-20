@@ -55,7 +55,7 @@ const CardCreator = props => {
 		
 		
     }, []);
-    //54e60de4f422cb6dd2100d4ed41a325f
+    //be004f5d5ff8b37eaa87fab8f0ad0887
     function addCard_to_BD(e){
         var  carriers = "";
         props.setPopout(<ScreenSpinner size='large' />);
@@ -64,7 +64,7 @@ const CardCreator = props => {
         fetch("https://cors-anywhere.herokuapp.com/https://moyaposylka.ru/api/v1/carriers/"+document.getElementById("input_track_id").value)
         .then(response => response.json())
         .then(result =>{
-            sendRequest("POST", 'https://cors-anywhere.herokuapp.com/https://moyaposylka.ru/api/v1/trackers/'+result[0].code+'/'+document.getElementById("input_track_id").value+'?api_key=54e60de4f422cb6dd2100d4ed41a325f')
+            fetch('https://cors-anywhere.herokuapp.com/https://moyaposylka.ru/api/v1/trackers/'+result[0].code+'/'+document.getElementById("input_track_id").value+'?api_key=be004f5d5ff8b37eaa87fab8f0ad0887',{method: 'post'})
             .then(data => {
                 fetch("https://cors-anywhere.herokuapp.com/https://moyaposylka.ru/api/v1/trackers/"+result[0].code+"/"+document.getElementById("input_track_id").value)
                 .then(response => response.json())
@@ -77,10 +77,10 @@ const CardCreator = props => {
                     +"&track_code="+result[0].code+"&track_id="+document.getElementById("input_track_id").value).then(data => {
                         if (data != null) {props.go(1); props.setPopout(null);}
                     }).catch(err => console.log(err));
-            }).catch(err => {console.log(err); props.go(1)})
+            }).catch(err => {alert("Error не корректный номер отслеживания"); props.go(1)})
             
     
-        }).catch(err => {console.log(err); props.go(1)})
+        }).catch(err => {alert("Error не корректный номер отслеживания"); props.go(1)})
         
                 
         
@@ -104,7 +104,13 @@ const CardCreator = props => {
                         {/* <Input id = "input_track_code" type="number" placeholder="Ввидите id карты"/> */}
                         <Input className="text_in" id = "input_track_id" type="text" placeholder="Введите трек номер"/>
                         
-                        <Button size="xl" onClick={addCard_to_BD} data-to="home">Создать</Button>
+                        <Button size="xl" onClick={() =>{if (document.getElementById("input_name").value != "") addCard_to_BD(); else{
+                            alert("Error не корректное имя посылки");
+                           
+                        }
+
+                        
+                        }} data-to="home">Создать</Button>
                     </FormLayout>
 				    
 			    </div>	

@@ -90,7 +90,7 @@ const Card_Info = props => {
 									<InfoRow className="Status" >Статус отслеживания : {props.parcelsData.events[0].operation}</InfoRow>
 								}
 								{props.parcelsData && Object.keys(props.parcelsData.events).length == 0 &&
-									<InfoRow>Статус отслеживания : Error</InfoRow>
+									<InfoRow>Статус отслеживания : информации пока нет</InfoRow>
 								}
 								
 								
