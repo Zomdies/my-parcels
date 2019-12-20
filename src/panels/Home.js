@@ -127,7 +127,7 @@ const Home = props => {
                 	</List>
 				}
 				{serverData && Object.keys(serverData.tracks).length == 0 &&
-					<Cell className="ErrorParcels" >Пока у вас нет пасылок</Cell> 
+					<Cell className="ErrorParcels" >Пока у вас нет посылок</Cell> 
 				}
 				<Cell className="AddParcels" onClick={props.go} data-to='create_card'>Добавить посылку</Cell>
             </Group>
