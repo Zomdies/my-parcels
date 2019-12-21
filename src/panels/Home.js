@@ -104,7 +104,7 @@ const Home = props => {
 			<PanelHeader>Мои посылки</PanelHeader>
             <Group className="Parcels_Group" title="Посылки">
 				{serverData &&                 	
-					<List>
+					<List >
                 		{serverData && serverData.tracks && Object.values(serverData.tracks).map(v => Object.values(v))
 						.map((item,index) =>{ 
 							return(
@@ -114,7 +114,7 @@ const Home = props => {
                       					// parcels1.splice(to, 0, parcels[from]);
 										  // setParcels(parcels1);
 										//   console.log(item);
-								}}  > <div   onClick={() =>{ chooseParcels = item;
+								}}  > <div className="ParcelsName_BT"  onClick={() =>{ chooseParcels = item;
 															load_info(setParcelsData,props.setPopout);
 															setActiveModal("modal_inform");
 															console.log(chooseParcels);

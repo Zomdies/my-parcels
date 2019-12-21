@@ -42,6 +42,12 @@
     margin: 0 3% 12px 3%;
     /* text-align: center; */
 }
+.ParcelsName_BT{
+    /* box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.164);
+    border-radius: 10px;
+    padding: 5px 0 5px 0;
+    margin: 0 3% 12px 3%; */
+}
 .ErrorParcels{
     text-align: center;
     /* font-weight: bold; */
@@ -51,7 +57,7 @@
     font-weight: bold;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.164);
     border-radius: 10px;
-    padding: 5px 0 5px 0;
+    /* padding: 5px 0 5px 0; */
     margin: 0 3% 12px 3%;
 }
 .ModalBody{
